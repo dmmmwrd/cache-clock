@@ -1,0 +1,1 @@
+{ "name": "cache-clock", "version": "0.1.0", "description": "Status-line countdown showing whether this session's prompt cache is still warm" }
