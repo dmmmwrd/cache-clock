@@ -30,6 +30,7 @@ export const register: Register = on => {
   let lastAt = 0
   let isBusy = false
   let warnedFor = 0
+  let lastTokens = 0
   let cancel: (() => void) | null = null
 
   const draw = async ($: any) => {
@@ -51,9 +52,12 @@ export const register: Register = on => {
       return
     }
 
+    // Tokens the next prompt re-sends: the last response's context size. Fall back to the
+    // window percentage, then to the figure captured when the turn ended.
     const { context } = await $.session.usage()
-    const size = context.tokens ? ` · next prompt re-reads ${tokens(context.tokens)} tokens uncached` : ''
-    $.ui.status(`cache cold · expired ${ago(-left)}${size}`)
+    const size = context.tokens || Math.round(((context.percent ?? 0) / 100) * context.window) || lastTokens
+    const cost = size ? ` \u00b7 next prompt re-reads ${tokens(size)} tokens uncached` : ' \u00b7 next prompt re-reads your whole context uncached'
+    $.ui.status(`cache cold \u00b7 expired ${ago(-left)}${cost}`)
   }
 
   on('prompt.submit', ($, e, next) => {
@@ -70,6 +74,8 @@ export const register: Register = on => {
 
       if (e.usage) {
         lastAt = await $.clock.now()
+        const { context } = await $.session.usage()
+        lastTokens = context.tokens ?? lastTokens
         const read = e.usage.cache_read_input_tokens ?? 0
         const wrote = e.usage.cache_creation_input_tokens ?? 0
         $.ui.log(`cache-clock: read ${read}, wrote ${wrote}`, { to: 'debug' })
