@@ -11,16 +11,13 @@ The countdown is an estimate from elapsed time, not a query of the server. If yo
 
 ## Install
 
-At the prompt of a terminal session:
+Use Claude Code 2.1.299 or later (the desktop app's engine); older `claude` commands cannot load it.
 
 ```
-/plugin install cache-clock --marketplace <owner>/cache-clock
+claude plugin marketplace add dmmmwrd/cache-clock
+claude plugin install cache-clock@cache-clock --scope user
 ```
 
-From a shell:
+In the desktop app: click + next to the prompt box, then Plugins, Add marketplace with `dmmmwrd/cache-clock`, then Add plugin.
 
-```
-claude plugin install cache-clock --marketplace <owner>/cache-clock
-```
-
-In the desktop app: click + next to the prompt box, then Plugins, Add marketplace with `<owner>/cache-clock`, then Add plugin.
+The countdown shows as a band above the prompt (and in the status line where one is drawn).

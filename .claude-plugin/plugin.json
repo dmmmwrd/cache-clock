@@ -1,1 +1,1 @@
-{ "name": "cache-clock", "version": "0.1.0", "description": "Status-line countdown showing whether this session's prompt cache is still warm" }
+{ "name": "cache-clock", "version": "0.2.0", "description": "Band above the prompt (and status line) showing whether this session's prompt cache is still warm", "types": "./types/index.d.ts" }
